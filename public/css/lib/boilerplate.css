@@ -1,0 +1,386 @@
+/*!
+ * Bootstrap v3.3.6 (http://getbootstrap.com)
+ * Copyright 2011-2015 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
+
+html {
+  font-family: sans-serif;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%
+}
+body {
+  margin: 0
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+  display: block
+}
+audio,
+canvas,
+progress,
+video {
+  display: inline-block;
+  vertical-align: baseline
+}
+audio:not([controls]) {
+  display: none;
+  height: 0
+}
+[hidden],
+template {
+  display: none
+}
+a {
+  background-color: transparent
+}
+a:active,
+a:hover {
+  outline: 0
+}
+b,
+strong {
+  font-weight: 700
+}
+dfn {
+  font-style: italic
+}
+h1 {
+  margin: .67em 0
+}
+mark {
+  color: #000;
+  background: #ff0
+}
+sub,
+sup {
+  position: relative;
+  font-size: 75%;
+  line-height: 0;
+  vertical-align: baseline
+}
+sup {
+  top: -.5em
+}
+sub {
+  bottom: -.25em
+}
+img {
+  border: 0
+}
+svg:not(:root) {
+  overflow: hidden
+}
+hr {
+  height: 0;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box
+}
+pre {
+  overflow: auto
+}
+code,
+kbd,
+pre,
+samp {
+  font-size: 1em
+}
+button,
+input,
+optgroup,
+select,
+textarea {
+  margin: 0;
+  font: inherit;
+  color: inherit
+}
+button {
+  overflow: visible
+}
+button,
+select {
+  text-transform: none
+}
+button,
+html input[type=button],
+input[type=reset],
+input[type=submit] {
+  -webkit-appearance: button;
+  cursor: pointer
+}
+button[disabled],
+html input[disabled] {
+  cursor: default
+}
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  padding: 0;
+  border: 0
+}
+input[type=checkbox],
+input[type=radio] {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  height: auto
+}
+input[type=search]::-webkit-search-cancel-button,
+input[type=search]::-webkit-search-decoration {
+  -webkit-appearance: none
+}
+textarea {
+  overflow: auto
+}
+optgroup {
+  font-weight: 700
+}
+table {
+  border-spacing: 0;
+  border-collapse: collapse
+}
+td,
+th {
+  padding: 0
+}
+/*! Source: https://github.com/h5bp/html5-boilerplate/blob/master/src/css/main.css */
+
+@media print {
+  *,
+  :after,
+  :before {
+    color: #000!important;
+    text-shadow: none!important;
+    background: 0 0!important;
+    -webkit-box-shadow: none!important;
+    box-shadow: none!important
+  }
+  a,
+  a:visited {
+    text-decoration: underline
+  }
+  a[href]:after {
+    content: " (" attr(href) ")"
+  }
+  abbr[title]:after {
+    content: " (" attr(title) ")"
+  }
+  a[href^="#"]:after,
+  a[href^="javascript:"]:after {
+    content: ""
+  }
+  blockquote,
+  pre {
+    border: 1px solid #999;
+    page-break-inside: avoid
+  }
+  thead {
+    display: table-header-group
+  }
+  img,
+  tr {
+    page-break-inside: avoid
+  }
+  img {
+    max-width: 100%!important
+  }
+  h2,
+  h3,
+  p {
+    orphans: 3;
+    widows: 3
+  }
+  h2,
+  h3 {
+    page-break-after: avoid
+  }
+  .navbar {
+    display: none
+  }
+  .btn>.caret,
+  .dropup>.btn>.caret {
+    border-top-color: #000!important
+  }
+  .label {
+    border: 1px solid #000
+  }
+  .table {
+    border-collapse: collapse!important
+  }
+  .table td,
+  .table th {
+    background-color: #fff!important
+  }
+  .table-bordered td,
+  .table-bordered th {
+    border: 1px solid #ddd!important
+  }
+}
+#header-logo,
+#page-header {
+  height: 78px
+}
+#header-logo {
+  width: 260px;
+  text-align: center;
+  font-size: 16px;
+  float: left;
+  position: relative
+}
+#header-logo .logo-content-big,
+.logo-content-small {
+  background: url(../../image-resources/logo-admin.png) left 50% no-repeat;
+  text-indent: -999em;
+  position: absolute;
+  height: 34px;
+  width: 190px;
+  left: 10px;
+  top: 50%;
+  margin-top: -17px
+}
+.logo-content-small {
+  width: 35px
+}
+#header-logo .logo-content-small {
+  left: 50%;
+  margin-left: -17px;
+  display: none
+}
+#page-header #close-sidebar {
+  color: rgba(255, 255, 255, .5);
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  margin-top: -12px;
+  height: 24px;
+  line-height: 24px;
+  width: 24px;
+  display: block;
+  border-radius: 3px;
+  text-align: center
+}
+#page-header #close-sidebar .glyph-icon {
+  display: block;
+  height: 24px;
+  line-height: 24px;
+  width: 24px
+}
+#page-header #close-sidebar:hover {
+  color: rgba(255, 255, 255, .85);
+  background: rgba(255, 255, 255, .1)
+}
+#header-nav-left {
+  float: left;
+  margin: 0 15px
+}
+#page-header .user-account-btn {
+  float: left;
+  margin: 23px 0 0
+}
+#page-header .user-account-btn .dropdown-menu {
+  padding-bottom: 0;
+  top: 39px;
+  left: -12px
+}
+#page-header .user-account-btn .dropdown-menu:after,
+#page-header .user-account-btn .dropdown-menu:before {
+  left: 50%;
+  margin-left: -3px
+}
+#page-header .user-account-btn>a.user-profile {
+  height: 28px;
+  line-height: 28px;
+  display: block
+}
+#page-header .user-account-btn>a.user-profile span {
+  margin-right: 10px;
+  float: left;
+  width: 96px
+}
+#page-header .user-account-btn>a.user-profile .glyph-icon {
+  width: 28px;
+  line-height: 28px;
+  height: 28px;
+  float: right;
+  text-align: center;
+  border-radius: 4px;
+  font-size: 16px
+}
+.user-account-btn img {
+  border-radius: 50px;
+  float: left;
+  margin-right: 5px
+}
+#header-nav-right {
+  float: right;
+  margin: 15px 20px 0 0
+}
+#header-nav-right .header-btn,
+#header-nav-right>.dropdown {
+  margin: 0 0 0 5px;
+  float: left
+}
+#header-nav-right .dropdown>a,
+#header-nav-right .header-btn {
+  border: 2px solid transparent;
+  border-radius: 4px;
+  width: 45px;
+  height: 45px;
+  line-height: 43px;
+  display: block;
+  text-align: center;
+  position: relative
+}
+#header-nav-right .dropdown>a .small-badge,
+#header-nav-right .header-btn .small-badge {
+  display: block;
+  border: 0!important;
+  top: 0;
+  box-sizing: initial;
+  right: 0;
+  position: absolute;
+  height: 8px;
+  width: 8px;
+  border-radius: 0 0 0 9px
+}
+#header-nav-right .dropdown>a .glyph-icon,
+#header-nav-right .header-btn .glyph-icon {
+  text-align: center;
+  font-size: 21px
+}
+#header-nav-right .dropdown-menu.float-right {
+  right: 8px;
+  top: 49px
+}
+#header-nav-right a.hdr-btn {
+  float: left;
+  height: 28px;
+  line-height: 28px;
+  display: block;
+  width: 28px;
+  text-align: center;
+  background: rgba(255, 255, 255, .05);
+  border-radius: 3px;
+  margin: 8px 10px 0 0;
+  color: rgba(255, 255, 255, .7)
+}
+#header-nav-right a.hdr-btn:hover {
+  background: rgba(255, 255, 255, .15);
+  color: rgba(255, 255, 255, .8)
+}
