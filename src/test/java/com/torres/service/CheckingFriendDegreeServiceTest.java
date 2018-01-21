@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.SetOperations;
@@ -20,17 +19,15 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public class RedisServiceTest {
+public class CheckingFriendDegreeServiceTest {
 
 
     @InjectMocks
-    private RedisService redisService;
+    private CheckingFriendDegreeService checkingFriendDegreeService;
 
     @Resource(name = "redisTemplate")
 //    @Mock
@@ -40,7 +37,7 @@ public class RedisServiceTest {
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
-        assertThat(redisService).isNotNull();
+        assertThat(checkingFriendDegreeService).isNotNull();
 
         List<List<String>> friends = new ArrayList<List<String>>();
         List<String> friend01 = new ArrayList<String>();friend01.add("Richard");friend01.add("Anthony");

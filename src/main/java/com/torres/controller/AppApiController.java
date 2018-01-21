@@ -1,7 +1,7 @@
 package com.torres.controller;
 
-import com.torres.domain.FraudDetectResponse;
-import com.torres.service.RedisService;
+import com.torres.domain.FriendCheckResponse;
+import com.torres.service.CheckingFriendDegreeService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -11,28 +11,17 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Date;
-
 @RestController
 @Slf4j
 public class AppApiController {
 
-    // API test
     @Autowired
-    private RedisService redisService;
+    private CheckingFriendDegreeService checkingFriendDegreeService;
 
-    @RequestMapping(value = "/v1/count", method = RequestMethod.GET)
-    public ModelAndView index() {
-        ModelAndView model = new ModelAndView("index");
-        model.addObject("count", redisService.getVisitCount());
-        return model;
-    }
-
-
-    //
-    @ApiOperation(value = " API using user_id, friend_id")
+    // API - checking find friend degree
+    @ApiOperation(value = "find friend degree - userA, userB")
     @RequestMapping(
-        value="/v1/{userId01}/{userId02}",
+        value="/v1/{userA}/{userB}",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiResponses(value = {
@@ -41,31 +30,26 @@ public class AppApiController {
         @ApiResponse(code = 404, message = "Not Found - Not Found. check user_id"),
         @ApiResponse(code = 500, message = "Internal Server Error") })
     public @ResponseBody
-    FraudDetectResponse fraudDetectResponse(
-        @PathVariable Long userId01,
-        @PathVariable Long userId02){
+    FriendCheckResponse checkFriendDegree(
+        @PathVariable String userA,
+        @PathVariable String userB){
 
-        // TODO: check user_id is LONG?
-        log.info("[REQ] {} - start check Fraud Detection.", userId01);
+        int degree = 0;
+        log.info("[REQ] {}, {}", userA, userB);
 
         try {
-            // TEST: check all UserAction
-            Date testTime = new Date();
-            log.info(" --- time : {}", testTime.getTime());
-
-
-
+            degree = this.checkingFriendDegreeService.checkFriendDegree(userA, userB);
         }catch (Exception ex){
-            log.error("(SEND EXCEPTION during meta) 처리되지않은 오류 발생 : {}", ex.getMessage());
+            log.error("(SEND EXCEPTION) 처리되지않은 오류 발생 : {}", ex.getMessage());
         }
-        //
 
+        FriendCheckResponse friendCheckResponse = new FriendCheckResponse(userA, userB, degree);
+        log.info("[RES] {}, {}, degree: {}",
+            friendCheckResponse.getUserA(),
+            friendCheckResponse.getUserB(),
+            friendCheckResponse.getDegree());
 
-        FraudDetectResponse fraudDetectResponse = new FraudDetectResponse(userId01, Boolean.TRUE, "RuleA,RuleB");
-
-//        log.info("test {} ", creatingUserActionLogService.test(user_id));
-        log.info("[RES] {} - fraud result : {}", userId01, fraudDetectResponse.getIs_fraud());
-        return fraudDetectResponse;
+        return friendCheckResponse;
     }
 
 }

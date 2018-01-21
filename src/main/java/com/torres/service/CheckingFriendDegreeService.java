@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class RedisService {
+public class CheckingFriendDegreeService {
 
     @Resource(name = "redisTemplate")
     private RedisOperations redisOperations;
@@ -23,17 +23,18 @@ public class RedisService {
     @Resource(name = "redisTemplate")
     private SetOperations<String, String> setOperations;
 
-    public Long getVisitCount() {
-        Long count = 0L;
-        try {
-            valusOps.increment("spring:redis:visitcount", 1);
-            count = Long.valueOf(valusOps.get("spring:redis:visitcount"));
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-        return count;
-    }
+    public int checkFriendDegree(String userA, String userB){
+        if (areFirstDegree(userA, userB) == true)
+            return 1;
 
+        if (areSecondDegree(userA, userB) == true)
+            return 2;
+
+        if (areThirdDegree(userA, userB) == true)
+            return 3;
+
+        return 0;
+    }
     // 1.
     public Set<String> getFriends(String user){
 
@@ -51,8 +52,6 @@ public class RedisService {
 
     // 3.
     public boolean areSecondDegree(String userA, String userB){
-        if (areFirstDegree(userA, userB) == true)
-            return false;
 
         Set<String> firstDegreeFriends = setOperations.members("user:"+userA+":friends");
         Set<String> secondDegreeFriends = findNextDegreeFriends(firstDegreeFriends);
@@ -63,8 +62,6 @@ public class RedisService {
 
     // 4.
     public boolean areThirdDegree(String userA, String userB){
-        if (areSecondDegree(userA, userB) == true)
-            return false;
 
         Set<String> firstDegreeFriends = setOperations.members("user:"+userA+":friends");
         Set<String> secondDegreeFriends = findNextDegreeFriends(firstDegreeFriends);

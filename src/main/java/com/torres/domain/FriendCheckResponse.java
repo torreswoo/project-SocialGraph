@@ -5,9 +5,9 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class FraudDetectResponse {
+public class FriendCheckResponse {
 
-    Long user_id;
-    Boolean is_fraud;
-    String rule;
+    String userA;
+    String userB;
+    int degree;
 }
