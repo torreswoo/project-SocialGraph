@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class CheckingFriendDegreeService {
@@ -23,6 +22,7 @@ public class CheckingFriendDegreeService {
     @Resource(name = "redisTemplate")
     private SetOperations<String, String> setOperations;
 
+    //
     public int checkFriendDegree(String userA, String userB){
         if (areFirstDegree(userA, userB) == true)
             return 1;
@@ -35,59 +35,59 @@ public class CheckingFriendDegreeService {
 
         return 0;
     }
-    // 1.
+    // 1. Find all first degree connections of UserA (my direct friends).
     public Set<String> getFriends(String user){
 
         Set<String> friends = setOperations.members("user:"+user+":friends");
         return friends;
     }
 
-    // 2.
+    private Set<String> getFriendsOfFriends(Set<String> firstDegreeFriends) {
+        Set<String> secondDegreeFriends = new HashSet<String>();
+        firstDegreeFriends.forEach(friend -> {
+            secondDegreeFriends.addAll(getFriends(friend));
+        });
+        return secondDegreeFriends;
+    }
+
+    // 2. Find if UserA and UserB are 1st degree connected (direct friends).
     public boolean areFirstDegree(String userA, String userB){
 
-        Set<String> friends = setOperations.members("user:"+userA+":friends");
+        Set<String> friends = getFriends(userA);
 
         return checkUserInFriendlist(userB, friends);
     }
 
-    // 3.
+    // 3. Find if UserA and UserB are 2nd degree connected (friends of friends).
     public boolean areSecondDegree(String userA, String userB){
 
-        Set<String> firstDegreeFriends = setOperations.members("user:"+userA+":friends");
-        Set<String> secondDegreeFriends = findNextDegreeFriends(firstDegreeFriends);
+        Set<String> firstDegreeFriends = getFriends(userA);
+        Set<String> secondDegreeFriends = getFriendsOfFriends(firstDegreeFriends);
 
         return checkUserInFriendlist(userB, secondDegreeFriends);
     }
 
 
-    // 4.
+    // 4. Find if UserA and UserB are 3rd degree connected (friends of friends of friends).
     public boolean areThirdDegree(String userA, String userB){
 
-        Set<String> firstDegreeFriends = setOperations.members("user:"+userA+":friends");
-        Set<String> secondDegreeFriends = findNextDegreeFriends(firstDegreeFriends);
-        Set<String> thirdDegreeFriends = findNextDegreeFriends(secondDegreeFriends);
+        Set<String> firstDegreeFriends = getFriends(userA);
+        Set<String> secondDegreeFriends = getFriendsOfFriends(firstDegreeFriends);
+        Set<String> thirdDegreeFriends = getFriendsOfFriends(secondDegreeFriends);
 
         return checkUserInFriendlist(userB, thirdDegreeFriends);
     }
 
 
     //
-    private boolean checkUserInFriendlist(String userB, Set<String> friends) {
-        Set<String> filter = friends
-            .stream()
-            .filter(friend -> friend.equals(userB))
-            .collect(Collectors.toSet());
-        return filter.size() != 0 ? true : false;
-    }
+    private boolean checkUserInFriendlist(String user, Set<String> friends) {
 
-    private Set<String> findNextDegreeFriends(Set<String> firstDegreeFriends) {
-        Set<String> secondDegreeFriends = new HashSet<String>();
-        firstDegreeFriends.forEach(friend -> {
-            secondDegreeFriends.addAll(setOperations.members("user:"+friend+":friends"));
-        });
-        return secondDegreeFriends;
+        for( String friend :friends){
+            if (friend.equals(user))
+                return true;
+        }
+        return false;
     }
-
 
 
 
