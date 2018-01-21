@@ -1,17 +1,24 @@
 package com.torres.config;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-
+// DataSource Config
+// - application.yml : spring.datasource:
 @Configuration
 public class DatabaseConfig {
 
-    // DataSource Config
-    // - application.yml : spring.datasource:
+    private @Value("${spring.redis.host}") String redisHost;
+    private @Value("${spring.redis.port}") int redisPort;
+    private @Value("${spring.redis.password}") String password;
+
     @Bean
     @ConfigurationProperties("spring.datasource")
     public DataSource dataSource() {
@@ -21,13 +28,23 @@ public class DatabaseConfig {
             .build();
     }
 
+    @Bean
+    public JedisConnectionFactory connectionFactory() {
+        JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
+        jedisConnectionFactory.setHostName(redisHost);
+        jedisConnectionFactory.setPort(redisPort);
+        jedisConnectionFactory.setPassword(password);
+        jedisConnectionFactory.setUsePool(true);
+        return jedisConnectionFactory;
+    }
 
-    // JDBC Config
-    // - usage : @Autowired  @Qualifier("basicJdbcTemplate") private JdbcTemplate jdbcTemplate;
-//    @Bean
-//    public JdbcTemplate basicJdbcTemplate(
-//        @Qualifier("dataSource") DataSource dataSource) {
-//        return new JdbcTemplate(dataSource);
-//    }
+    @Bean
+    public RedisTemplate<String, Object> redisTemplate() {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new StringRedisSerializer());
+        redisTemplate.setConnectionFactory(connectionFactory());
+        return redisTemplate;
+    }
 
 }

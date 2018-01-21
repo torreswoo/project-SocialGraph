@@ -56,4 +56,8 @@ dependencies {
 
 	// datasource - JDBC
 	compile "org.springframework.boot:spring-boot-starter-jdbc:${springBootVersion}"
+
+    // datasource - Redis
+    compile("org.springframework.boot:spring-boot-starter-data-redis")
+
 }

@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.util.Arrays;
 
 @SpringBootApplication
-//@EnableAdminServer
 @Slf4j
 public class AppMain {
     public static void main(String[] args) {
