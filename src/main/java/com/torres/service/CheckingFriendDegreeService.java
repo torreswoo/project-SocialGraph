@@ -13,28 +13,10 @@ import java.util.Set;
 @Service
 public class CheckingFriendDegreeService {
 
-    @Resource(name = "redisTemplate")
-    private RedisOperations redisOperations;
+    @Resource(name = "redisTemplate") private RedisOperations redisOperations;
+    @Resource(name = "redisTemplate") private ValueOperations<String, String> valusOps;
+    @Resource(name = "redisTemplate") private SetOperations<String, String> setOperations;
 
-    @Resource(name = "redisTemplate")
-    private ValueOperations<String, String> valusOps;
-
-    @Resource(name = "redisTemplate")
-    private SetOperations<String, String> setOperations;
-
-    //
-    public int checkFriendDegree(String userA, String userB){
-        if (areFirstDegree(userA, userB) == true)
-            return 1;
-
-        if (areSecondDegree(userA, userB) == true)
-            return 2;
-
-        if (areThirdDegree(userA, userB) == true)
-            return 3;
-
-        return 0;
-    }
     // 1. Find all first degree connections of UserA (my direct friends).
     public Set<String> getFriends(String user){
 
@@ -42,7 +24,7 @@ public class CheckingFriendDegreeService {
         return friends;
     }
 
-    private Set<String> getFriendsOfFriends(Set<String> firstDegreeFriends) {
+    public Set<String> getFriendsOfFriends(Set<String> firstDegreeFriends) {
         Set<String> secondDegreeFriends = new HashSet<String>();
         firstDegreeFriends.forEach(friend -> {
             secondDegreeFriends.addAll(getFriends(friend));
@@ -81,14 +63,23 @@ public class CheckingFriendDegreeService {
 
     //
     private boolean checkUserInFriendlist(String user, Set<String> friends) {
-
-        for( String friend :friends){
-            if (friend.equals(user))
-                return true;
-        }
-        return false;
+        return friends.contains(user) ? true : false;
     }
 
+
+    // for API
+    public int checkFriendDegree(String userA, String userB){
+        if (areFirstDegree(userA, userB) == true)
+            return 1;
+
+        if (areSecondDegree(userA, userB) == true)
+            return 2;
+
+        if (areThirdDegree(userA, userB) == true)
+            return 3;
+
+        return 0;
+    }
 
 
 }

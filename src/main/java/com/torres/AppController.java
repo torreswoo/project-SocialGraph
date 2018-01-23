@@ -16,13 +16,5 @@ public class AppController {
     public RedirectView swaggerRedirect(){
         return new RedirectView("/swagger-ui.html");
     }
-//    // intro
-//    // (Thymeleaf)
-//    @RequestMapping(value="/intro", method = RequestMethod.GET)
-//    public String intro(Model model){
-//
-//        model.addAttribute("title", "torres");
-//        return "intro";
-//    }
 
 }
