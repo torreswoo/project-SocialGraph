@@ -2,7 +2,7 @@
 - ZEPL : https://github.com/ZEPL/data-engineering-challenge/blob/master/Social-Graphs.md
 - SpringBoot Application
 - Gradle project
-- Redis
+- Redis : insert data relation between friends. The key is "user:{username}:friends". An value is Set -"{ "friendA", "friendB", ...}". use command "SADD", "SMENBER"
 
 ### Introduction
 A social graph consists of a set of users, and a set of relationships between two users.
